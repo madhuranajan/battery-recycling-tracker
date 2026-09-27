@@ -1,51 +1,700 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Battery Recycling Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoCell | Smart Battery Recycling</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f4fbf7;
+            color: #173b2a;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            background: #ffffff;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #16834b;
+        }
+
+        .logo span {
+            color: #f0a500;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #355c48;
+            margin-left: 25px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #16834b;
+        }
+
+        /* HERO */
+
+        .hero {
+            padding: 70px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            background: linear-gradient(135deg, #e8fff1, #f9fff8);
+        }
+
+        .hero-text {
+            max-width: 600px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #d8f7e5;
+            color: #16834b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #16834b;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #607568;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #16834b;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #11683b;
+        }
+
+        .battery-icon {
+            font-size: 150px;
+            background: white;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 15px 40px rgba(22,131,75,0.15);
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 45px 8%;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+        }
+
+        .stat-card h2 {
+            margin: 10px 0 5px;
+            font-size: 30px;
+            color: #16834b;
+        }
+
+        .stat-card p {
+            color: #718078;
+        }
+
+        /* SECTION */
+
+        .section {
+            padding: 55px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #718078;
+        }
+
+        /* FORM */
+
+        .form-card {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d8e5dd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #16834b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #16834b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #11683b;
+        }
+
+        /* SUCCESS MESSAGE */
+
+        .success {
+            max-width: 700px;
+            margin: 0 auto 25px;
+            background: #dff8e9;
+            color: #16733f;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* RECENT ACTIVITY */
+
+        .activity {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .activity-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .activity-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .activity-icon {
+            background: #e4f8ec;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        .activity-left h4 {
+            margin-bottom: 5px;
+        }
+
+        .activity-left p {
+            color: #718078;
+            font-size: 13px;
+        }
+
+        .quantity {
+            color: #16834b;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            color: #718078;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        /* FACT */
+
+        .fact {
+            background: #173b2a;
+            color: white;
+            padding: 40px 8%;
+            text-align: center;
+        }
+
+        .fact h2 {
+            margin-bottom: 12px;
+        }
+
+        .fact p {
+            color: #d8e9df;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #0e281b;
+            color: #b8cfc1;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .battery-icon {
+                width: 190px;
+                height: 190px;
+                font-size: 100px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 15px 5%;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 13px;
+            }
+
+            .activity-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>🔋 Battery Recycling Tracker</h1>
+    <!-- NAVIGATION -->
 
-    <p>Track used batteries collected for recycling.</p>
+    <nav>
 
-    <h2>Add Battery Record</h2>
-
-    <form action="/add" method="POST">
-
-        <label>Battery Type:</label>
-        <input type="text" name="battery_type" required>
-
-        <br><br>
-
-        <label>Quantity:</label>
-        <input type="number" name="quantity" required>
-
-        <br><br>
-
-        <label>Location:</label>
-        <input type="text" name="location" required>
-
-        <br><br>
-
-        <button type="submit">Add Record</button>
-
-    </form>
-
-    <h2>Battery Records</h2>
-
-    {% for battery in batteries %}
-
-        <div>
-            <p><b>Battery Type:</b> {{ battery.type }}</p>
-            <p><b>Quantity:</b> {{ battery.quantity }}</p>
-            <p><b>Location:</b> {{ battery.location }}</p>
-            <p><b>Status:</b> {{ battery.status }}</p>
-            <hr>
+        <div class="logo">
+            🔋 Eco<span>Cell</span>
         </div>
 
-    {% endfor %}
+        <div>
+            <a href="#home">Home</a>
+            <a href="#track">Track</a>
+            <a href="#activity">Activity</a>
+            <a href="#impact">Impact</a>
+        </div>
+
+    </nav>
+
+
+    <!-- HERO SECTION -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-text">
+
+            <div class="tag">
+                ♻️ Smart Battery Recycling
+            </div>
+
+            <h1>
+                Give Your Batteries
+                <span>A Second Life.</span>
+            </h1>
+
+            <p>
+                Track your used batteries, understand your recycling
+                impact and help keep harmful battery waste away from
+                our environment.
+            </p>
+
+            <a href="#track" class="button">
+                ♻️ Record a Battery
+            </a>
+
+        </div>
+
+        <div class="battery-icon">
+            🔋
+        </div>
+
+    </section>
+
+
+    <!-- IMPACT STATISTICS -->
+
+    <section class="stats" id="impact">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🔋
+            </div>
+
+            <h2>{{ total_batteries }}</h2>
+
+            <p>
+                Batteries Recycled
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ♻️
+            </div>
+
+            <h2>{{ total_records }}</h2>
+
+            <p>
+                Recycling Records
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🌱
+            </div>
+
+            <h2>{{ waste_diverted }} kg</h2>
+
+            <p>
+                Estimated Waste Diverted
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECORD BATTERY -->
+
+    <section class="section" id="track">
+
+        <div class="section-title">
+
+            <h2>
+                ♻️ Record Your Battery
+            </h2>
+
+            <p>
+                Every small action contributes to a cleaner planet.
+            </p>
+
+        </div>
+
+
+        {% if request.args.get('success') %}
+
+        <div class="success">
+            ✅ Recycling record added successfully!
+        </div>
+
+        {% endif %}
+
+
+        <div class="form-card">
+
+            <form action="/add" method="POST">
+
+                <label>
+                    Battery Type
+                </label>
+
+                <select name="battery_type">
+
+                    <option>
+                        Lithium-ion
+                    </option>
+
+                    <option>
+                        Alkaline
+                    </option>
+
+                    <option>
+                        Nickel-metal hydride
+                    </option>
+
+                    <option>
+                        Lead-acid
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    name="quantity"
+                    placeholder="Enter number of batteries"
+                    min="1"
+                    required
+                >
+
+
+                <label>
+                    Condition
+                </label>
+
+                <select name="condition">
+
+                    <option>
+                        Used
+                    </option>
+
+                    <option>
+                        Damaged
+                    </option>
+
+                    <option>
+                        Expired
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Collection Location
+                </label>
+
+                <input
+                    type="text"
+                    name="location"
+                    placeholder="e.g. College Campus"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    ♻️ Add Recycling Record
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECENT ACTIVITY -->
+
+    <section class="section" id="activity">
+
+        <div class="section-title">
+
+            <h2>
+                📊 Recent Recycling Activity
+            </h2>
+
+            <p>
+                Your latest battery recycling records.
+            </p>
+
+        </div>
+
+
+        <div class="activity">
+
+            {% if records %}
+
+                {% for record in records %}
+
+                <div class="activity-card">
+
+                    <div class="activity-left">
+
+                        <div class="activity-icon">
+                            🔋
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                {{ record.battery_type }}
+                            </h4>
+
+                            <p>
+                                {{ record.condition }}
+                                •
+                                {{ record.location }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quantity">
+
+                        {{ record.quantity }} unit{% if record.quantity != 1 %}s{% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    ♻️ No recycling records yet.
+
+                    <br><br>
+
+                    Add your first battery above!
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- RECYCLING FACT -->
+
+    <section class="fact">
+
+        <h2>
+            💡 Did You Know?
+        </h2>
+
+        <p>
+            Batteries should not simply be thrown into regular waste.
+            Proper collection and recycling helps recover useful materials
+            and reduces the environmental impact of battery waste.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        EcoCell © 2026
+        |
+        Smart Battery Recycling Tracker 🌱
+
+    </footer>
 
 </body>
 </html>
